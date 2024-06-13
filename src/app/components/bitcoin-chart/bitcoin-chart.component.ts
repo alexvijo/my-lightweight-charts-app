@@ -30,12 +30,19 @@ export class BitcoinChartComponent {
       grid: {
           vertLines: { color: '#444' },
           horzLines: { color: '#444' },
+      },
+      timeScale: {
+        borderColor: '#cccccc'
       }
     });
 
     const lineSeries = this.chart.addLineSeries({
       color: 'rgb(255, 165, 0)',
       lineWidth: 2,
+      priceFormat: {
+        type: 'custom',
+        formatter: this.priceFormatter
+      }
     });
 
     this.fetchData(lineSeries);
@@ -43,6 +50,10 @@ export class BitcoinChartComponent {
     this.intervalId = setInterval(() => {
       this.fetchData(lineSeries);
     }, 60 * 60 * 1000); // Actualizar cada minuto
+  }
+
+  priceFormatter(price: number): string {
+    return price >= 1000 ? `${(price / 1000).toFixed(1)}k` : price.toFixed(2);
   }
 
   fetchData(lineSeries: any): void {

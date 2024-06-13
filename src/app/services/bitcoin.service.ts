@@ -14,11 +14,13 @@ export class BitcoinService {
 
   getBitcoinPrices(): Observable<any> {
     const now = Math.floor(Date.now() / 1000);
-    const oneDayAgo = now - 24 * 60 * 60;
+    // a year ago
+    const oneYearAgo = now - 365 * 24 * 60 * 60;
+    //const oneDayAgo = now - 24 * 60 * 60;
     const params = new HttpParams()
       .set('vs_currency', 'usd')
-      .set('days', '1')
-      .set('from', oneDayAgo.toString())
+      .set('days', '365')
+      .set('from', oneYearAgo.toString())
       .set('to', now.toString());
 
     return this.http.get(`${this.apiUrl}`, { params })
